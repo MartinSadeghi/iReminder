@@ -14,7 +14,7 @@ iReminde is an iOS application that allows users to create and manage reminders.
 ## Requirements
 
 - iOS 13.0+
-- Xcode 12.5+
+- Xcode 12+
 
 ## Installation
 
