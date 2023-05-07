@@ -9,7 +9,8 @@ import Foundation
 
 
 
-struct Reminder {
-    var name: String
-    var detail: String
+struct ReminderModel: Codable {
+    var title  : String
+    var body : String
+    var time  : String
 }

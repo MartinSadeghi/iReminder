@@ -45,8 +45,8 @@ class MainViewController: UIViewController {
         allReminderViewController.tabBarItem.selectedImage = UIImage(systemName: "folder.fill")
         
         let savedRemindersViewController = UINavigationController(rootViewController: SavedRemindersViewController())
-        savedRemindersViewController.tabBarItem.image = UIImage(systemName: "heart")
-        savedRemindersViewController.tabBarItem.selectedImage = UIImage(systemName: "heart.fill")
+        savedRemindersViewController.tabBarItem.image = UIImage(systemName: "opticaldiscdrive")
+        savedRemindersViewController.tabBarItem.selectedImage = UIImage(systemName: "opticaldiscdrive.fill")
         savedRemindersViewController.tabBarItem.title = "Saved"
         
         
