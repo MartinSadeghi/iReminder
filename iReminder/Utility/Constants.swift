@@ -39,6 +39,7 @@ struct Constants {
     static let doneBarButtonTitle         = "Done"
     static let newReminderTitle           = "New Reminder"
     static let detailViewControllerTitle  = "Details"
+    static let shareButtonTitle           = "Share Reminder"
     
     /// Colors
     static let allRemindersVCBackgroundColor    = "AllRemindersVCBackgroundColor"

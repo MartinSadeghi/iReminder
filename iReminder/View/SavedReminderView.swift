@@ -9,6 +9,11 @@ import UIKit
 
 
 class SavedRemindersViewController: UIViewController {
+    
+    
+    //MARK: -  Properties
+
+    
     private var viewModel = SavedRemindersViewModel()
 
     //MARK: -  Application LifeCycle
@@ -66,7 +71,7 @@ class SavedRemindersViewController: UIViewController {
     private func updateSavedRemindersTableView() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.viewModel.savedReminders = self.viewModel.userDefaultsManager.retrieveReminder()
+            self.viewModel.reminders = self.viewModel.userDefaultsManager.retrieveReminder()
             self.savedRemindersTableView.reloadData()
         }
     }
@@ -111,7 +116,7 @@ extension SavedRemindersViewController : UITableViewDelegate, UITableViewDataSou
     ///   - section: Section Description
     /// - Returns: Number of SavedReminders
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.savedReminders.count
+        return viewModel.reminders.count
     }
     
     
@@ -123,7 +128,8 @@ extension SavedRemindersViewController : UITableViewDelegate, UITableViewDataSou
     ///   - indexPath: Section Description
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            viewModel.savedReminders.remove(at: indexPath.row)
+            viewModel.reminders.remove(at: indexPath.row)
+            viewModel.deleteReminder(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -137,7 +143,7 @@ extension SavedRemindersViewController : UITableViewDelegate, UITableViewDataSou
     /// - Returns: the Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.savedReminderCellIdentifier, for: indexPath) as? SavedCell else { return UITableViewCell() }
-        cell.fillSavedReminderData(reminderTitle: viewModel.savedReminders[indexPath.row].title, reminderTime: viewModel.savedReminders[indexPath.row].time)
+        cell.fillSavedReminderData(reminderTitle: viewModel.reminders[indexPath.row].title, reminderTime: viewModel.reminders[indexPath.row].time)
         return cell
     }
     

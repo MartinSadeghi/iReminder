@@ -8,6 +8,9 @@
 import UIKit
 
 
+
+//MARK: -  Protocols
+
 protocol SavedReminderDelegate: AnyObject {
     func didSavedReminder(reminder: ReminderModel)
 }
@@ -42,25 +45,14 @@ class DetailReminderViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor(named: Constants.detailsReminderVCBackgroundColor)
-
         configureReminderDetailsStackView()
         tabBarSetup()
         fillReminderDetails()
     }
 
 
-    //MARK: -  Application LifeCycle
 
-
-    /// Configuring Left and Right Tab Bar
-    func tabBarSetup() {
-        let saveButton = UIBarButtonItem(title: Constants.saveButtonTitle, style: .done, target: self, action: #selector(saveButtonTapped))
-            navigationItem.rightBarButtonItem = saveButton
-
-        let closeButton = UIBarButtonItem(title: Constants.editButtonTitle, style: .done, target: self, action: #selector(closeButtonTapped))
-            navigationItem.leftBarButtonItem = closeButton
-    }
-
+    
 
     //MARK: - Methods
 
@@ -134,6 +126,17 @@ class DetailReminderViewController: UIViewController {
         lable.font = UIFont.systemFont(ofSize: 20)
         return lable
     }()
+    
+    /// Create Share Button
+    private lazy var shareButton : UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle(Constants.shareButtonTitle, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.setTitleColor(.blue, for: .normal)
+        button.layer.cornerRadius = button.frame.size.height / 2
+        button.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
+        return button
+    }()
 
 
 
@@ -163,7 +166,26 @@ class DetailReminderViewController: UIViewController {
         reminderDetailsStackView.addArrangedSubview(reminderTitleLable)
         reminderDetailsStackView.addArrangedSubview(reminderBodyLable)
         reminderDetailsStackView.addArrangedSubview(reminderTimeLable)
+        reminderDetailsStackView.addArrangedSubview(shareButton)
     }
+    
+    
+    /// Share the Selected Reminder
+    @objc func shareButtonTapped() {
+        guard let shareReminderTitle = reminderTitleLable.text else { return }
+        let activityVC = UIActivityViewController(activityItems: [shareReminderTitle], applicationActivities: [])
+        present(activityVC, animated: true)
+    }
+    
+    /// Configuring Left and Right Tab Bar
+    func tabBarSetup() {
+        let saveButton = UIBarButtonItem(title: Constants.saveButtonTitle, style: .done, target: self, action: #selector(saveButtonTapped))
+            navigationItem.rightBarButtonItem = saveButton
+
+        let closeButton = UIBarButtonItem(title: Constants.editButtonTitle, style: .done, target: self, action: #selector(closeButtonTapped))
+            navigationItem.leftBarButtonItem = closeButton
+    }
+
 
 }
 

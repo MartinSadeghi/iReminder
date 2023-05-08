@@ -13,25 +13,28 @@ class UserDefaultsManager: Codable {
     
     
     /// Save a reminder to the UserDefaults
-    /// - Parameter reminder: reminder
     func saveReminder(reminder: ReminderModel) {
+        /// Retrieve existing reminders or create an empty array if none exist yet
         var retrievedReminder = retrieveReminder()
-        if retrievedReminder.contains(where: {
-            $0.title == reminder.title
-        }) {
+        
+        /// Check if a reminder with the same title already exists
+        guard !retrievedReminder.contains(where: { $0.title == reminder.title }) else {
             print("Duplicated reminder!")
-        } else {
-            retrievedReminder.insert(reminder, at: 0)
-            
-            do {
-                let encoder = JSONEncoder()
-                let data = try encoder.encode(retrievedReminder)
-                UserDefaults.standard.set(data, forKey: "SavedRemindeObject")
-            } catch {
-                print("Unable to encode reminder \(error)!")
-            }
+            return
+        }
+        /// Add the new reminder to the beginning of the array
+        retrievedReminder.insert(reminder, at: 0)
+        
+        do {
+            // Encode the updated reminders array and save to UserDefaults
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(retrievedReminder)
+            UserDefaults.standard.set(data, forKey: "SavedRemindeObject")
+        } catch {
+            print("Unable to encode reminder \(error)!")
         }
     }
+
     
     
     
@@ -54,27 +57,20 @@ class UserDefaultsManager: Codable {
     
     /// Delete a reminders from UserDefaults
     /// - Parameter reminder: reminder
-    func deleteReminder(reminder: ReminderModel) {
+    func deleteReminder(at index: Int) {
         var currentReminders = retrieveReminder()
-        if currentReminders.contains(where: {
-            $0.title == reminder.title
-        }) {
-            currentReminders.removeAll(where: {
-                $0.title == reminder.title
-            })
-        }
-        do {
-            let encoder = JSONEncoder()
-            let data = try encoder.encode(currentReminders)
-            print(data)
-            UserDefaults.standard.set(data, forKey: "SavedRemindeObject")
-        } catch {
-            print("Unable to encode Reminders \(error)!")
-
+        if index < currentReminders.count {
+            currentReminders.remove(at: index)
+            do {
+                let encoder = JSONEncoder()
+                let data = try encoder.encode(currentReminders)
+                UserDefaults.standard.set(data, forKey: "SavedRemindeObject")
+            } catch {
+                print("Unable to encode Reminders \(error)!")
+            }
+        } else {
+            print("Index out of range!")
         }
     }
-    
-    
-    
     
 }

@@ -10,7 +10,12 @@ import UIKit
 
 class AllRemindersViewController: UIViewController {
     
+    
+    //MARK: -  Properties
+
     private let viewModel = AllRemindersViewModel()
+    
+    
     
     //MARK: -  Application LifeCycle
     
@@ -26,18 +31,24 @@ class AllRemindersViewController: UIViewController {
     
     //MARK: -   UI Outlets
     
+    
+    /// Create RemindersTableView
     private lazy var remindersTableView : UITableView = {
         let table             = UITableView()
         table.register(RemindersCell.self, forCellReuseIdentifier: Constants.reminderCellIdentifier.localized())
         return table
     }()
     
+
+    /// Configure RemindersTableView
     private func configureTableView() {
         remindersTableView.delegate        = self
         remindersTableView.dataSource      = self
         remindersTableView.separatorStyle  = .none
     }
     
+    
+    /// SetupRemindersTableViewConstraint
     private func setupRemindersTableViewConstraint() {
         view.addSubview(remindersTableView)
         remindersTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,10 +58,14 @@ class AllRemindersViewController: UIViewController {
         remindersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -10).isActive = true
     }
     
+    
+    /// SetupAddBarButton
     private func setupAddBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewReminder))
     }
     
+    
+    /// AddNewReminder
     @objc private func addNewReminder() {
         let newReminderViewController = NewReminderViewController()
         newReminderViewController.title = Constants.newReminderTitle
@@ -59,11 +74,21 @@ class AllRemindersViewController: UIViewController {
         newReminderViewController.newReminderDelegate = self
         present(newReminderVC, animated: true, completion: nil)
     }
-    
 }
+
+
+//MARK: -  Extensions
+
+
 
 extension AllRemindersViewController: UITableViewDelegate, UITableViewDataSource, NewReminderDelegate {
     
+    
+    /// Protocol func
+    /// - Parameters:
+    ///   - title: Reminder Title
+    ///   - body: Reminder Body
+    ///   - time: Reminder Time
     func didAddNewReminder(title: String, body: String, time: String) {
         viewModel.addReminder(title: title, body: body, time: time)
         DispatchQueue.main.async {
@@ -115,7 +140,7 @@ extension AllRemindersViewController: UITableViewDelegate, UITableViewDataSource
     
     /// TableViewCell Height
     /// - Parameters:
-    ///   - tableView: Pokemon TableView
+    ///   - tableView: AllReminders TableView
     ///   - indexPath: Each row
     /// - Returns: Height for each row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

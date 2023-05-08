@@ -10,6 +10,10 @@ import UserNotifications
 
 
 
+
+    //MARK: -  Protocols
+
+
 protocol NewReminderDelegate: AnyObject {
     func didAddNewReminder(title: String, body: String, time: String)
 }
@@ -17,10 +21,15 @@ protocol NewReminderDelegate: AnyObject {
 
 class NewReminderViewController: UIViewController {
 
+    
+    //MARK: -  Properties
+
     let newReminderStackView    = UIStackView()
     let notificationCenter      = UNUserNotificationCenter.current()
     weak var newReminderDelegate: NewReminderDelegate?
 
+
+    //MARK: -  Application LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +40,10 @@ class NewReminderViewController: UIViewController {
         notificationAllowance()
     }
 
+    
+    //MARK: -   UI Outlets
+
+    /// Create TitleTextField
     private lazy var titleTextField : UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +57,8 @@ class NewReminderViewController: UIViewController {
     }()
 
 
+    
+    /// Create BodyTextField
     private lazy var bodyTextField : UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +72,7 @@ class NewReminderViewController: UIViewController {
     }()
 
 
-
+    /// Create DatePickerSelected
     private lazy var datePickerSelected : UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .dateAndTime
@@ -67,7 +82,7 @@ class NewReminderViewController: UIViewController {
     }()
 
 
-    
+    /// Create ScheduleButton
     private lazy var scheduleButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(Constants.scheduleButtonTitle, for: .normal)
@@ -78,13 +93,14 @@ class NewReminderViewController: UIViewController {
         return button
     }()
 
-
+    
+    /// Create ScheduleButtonTapped
     @objc private func scheduleButtonTapped() {
         setupNotification()
     }
 
 
-
+    /// Formatting the Date to a readable String Date format
      func formatterDate(date : Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y HH:mm"
@@ -92,7 +108,7 @@ class NewReminderViewController: UIViewController {
     }
 
 
-
+    /// ConfigureNewReminderStackView
     private func configureNewReminderStackView() {
         view.addSubview(newReminderStackView)
         newReminderStackView.axis = .vertical
@@ -100,10 +116,10 @@ class NewReminderViewController: UIViewController {
         newReminderStackView.alignment = .fill
         setupNewReminderStackViewConstraint()
         addElementsToNewReminderStackView()
-
-
     }
-
+    
+    
+    /// SetupNewReminderStackViewConstraint
     private func setupNewReminderStackViewConstraint() {
         newReminderStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -114,7 +130,9 @@ class NewReminderViewController: UIViewController {
         ])
 
     }
-
+    
+    
+    /// Adding the Elements to the StackView
     private func addElementsToNewReminderStackView() {
         newReminderStackView.addArrangedSubview(titleTextField)
         newReminderStackView.addArrangedSubview(bodyTextField)
@@ -122,12 +140,16 @@ class NewReminderViewController: UIViewController {
         newReminderStackView.addArrangedSubview(scheduleButton)
 
     }
-
+    
+    
+    /// Done button tapped
     @objc func doneButtonTapped() {
         dismiss(animated: true) {
         }
     }
 
+    
+    /// Config Notification
     private func notificationAllowance() {
         notificationCenter.requestAuthorization(options: [.alert, .sound]) { (success, error) in
             if !success {
@@ -138,6 +160,8 @@ class NewReminderViewController: UIViewController {
 }
 
 
+
+//MARK: - Extension
 
 extension NewReminderViewController {
 

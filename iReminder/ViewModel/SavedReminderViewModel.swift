@@ -10,14 +10,20 @@ import Foundation
 
 class SavedRemindersViewModel {
     
-    var savedReminders: [ReminderModel] = []
+    
+    //MARK: -  Properties
+
+    var reminders: [ReminderModel] = []
     let userDefaultsManager = UserDefaultsManager()
    
+    
+    //MARK: -  Methods
+
     func addSavedReminder(_ reminder: ReminderModel) {
-        savedReminders.append(reminder)
+        reminders.append(reminder)
     }
     
-    func deleteSwipeReminder(_ reminder: ReminderModel) {
-        userDefaultsManager.deleteReminder(reminder: reminder)
+    func deleteReminder(at index: Int) {
+        UserDefaultsManager().deleteReminder(at: index)
     }
 }
