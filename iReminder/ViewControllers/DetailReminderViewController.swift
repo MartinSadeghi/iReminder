@@ -16,6 +16,9 @@ protocol SavedReminderDelegate: AnyObject {
 class DetailReminderViewController: UIViewController {
 
 
+    
+    //MARK: -  Properties
+
     let reminderDetailsStackView = UIStackView()
     let userDefaultsManager = UserDefaultsManager()
     var reminder : ReminderModel!

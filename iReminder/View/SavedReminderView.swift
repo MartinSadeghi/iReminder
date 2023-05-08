@@ -31,6 +31,8 @@ class SavedRemindersViewController: UIViewController {
     
     //MARK: -   UI Outlets
     
+    
+    /// Create SavedRemindersTableView
     private lazy var savedRemindersTableView : UITableView = {
         let table = UITableView()
         table.register(SavedCell.self, forCellReuseIdentifier: Constants.savedReminderCellIdentifier)
@@ -38,6 +40,8 @@ class SavedRemindersViewController: UIViewController {
     }()
     
     
+    
+    /// ConfigureTableView
     private func configureTableView() {
         savedRemindersTableView.delegate        = self
         savedRemindersTableView.dataSource      = self
@@ -45,6 +49,8 @@ class SavedRemindersViewController: UIViewController {
 
     }
    
+    
+    /// SetupSavedRemindersTableViewConstraint
     private func setupSavedRemindersTableViewConstraint() {
         view.addSubview(savedRemindersTableView)
         savedRemindersTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +62,7 @@ class SavedRemindersViewController: UIViewController {
     
     //MARK: - Methods
     
+    /// Update the Saved TableView
     private func updateSavedRemindersTableView() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -64,6 +71,8 @@ class SavedRemindersViewController: UIViewController {
         }
     }
     
+    
+    /// Update the Saved TableView after Removing
     private func updateSavedReminderAfterRemoving() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -106,20 +115,39 @@ extension SavedRemindersViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     
+    
+    /// deleting a row
+    /// - Parameters:
+    ///   - tableView: SavedReminders TableView
+    ///   - editingStyle: SwipeLeft
+    ///   - indexPath: Section Description
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             viewModel.savedReminders.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-
+  
     
+    
+    /// cellForRowAt
+    /// - Parameters:
+    ///   - tableView: Saved Reminders TableView
+    ///   - indexPath: Selected row
+    /// - Returns: the Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.savedReminderCellIdentifier, for: indexPath) as? SavedCell else { return UITableViewCell() }
         cell.fillSavedReminderData(reminderTitle: viewModel.savedReminders[indexPath.row].title, reminderTime: viewModel.savedReminders[indexPath.row].time)
         return cell
     }
     
+    
+    
+    /// Config TableView Height
+    /// - Parameters:
+    ///   - tableView: Saved Reminders TableView
+    ///   - indexPath: Selected row
+    /// - Returns: The exact height of the Cell
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
