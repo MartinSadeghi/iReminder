@@ -17,15 +17,15 @@ protocol NewReminderDelegate: AnyObject {
 
 class NewReminderViewController: UIViewController {
 
-    let newReminderStackView = UIStackView()
-    let notificationCenter = UNUserNotificationCenter.current()
+    let newReminderStackView    = UIStackView()
+    let notificationCenter      = UNUserNotificationCenter.current()
     weak var newReminderDelegate: NewReminderDelegate?
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: Constants.newRemindersVCBackgroundColor)
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+        let doneButton = UIBarButtonItem(title: Constants.doneBarButtonTitle, style: .done, target: self, action: #selector(doneButtonTapped))
         navigationItem.rightBarButtonItem = doneButton
         configureNewReminderStackView()
         notificationAllowance()
@@ -62,21 +62,19 @@ class NewReminderViewController: UIViewController {
         let picker = UIDatePicker()
         picker.datePickerMode = .dateAndTime
         picker.minimumDate = Date()
-        picker.backgroundColor = UIColor.red
         picker.maximumDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())
-        picker.backgroundColor = .white
         return picker
     }()
 
 
+    
     private lazy var scheduleButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(Constants.scheduleButtonTitle, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.setTitleColor(.blue, for: .normal)
         button.layer.cornerRadius = button.frame.size.height / 2
         button.addTarget(self, action: #selector(scheduleButtonTapped), for: .touchUpInside)
-
         return button
     }()
 
@@ -143,7 +141,8 @@ class NewReminderViewController: UIViewController {
 
 extension NewReminderViewController {
 
-
+    
+    /// Setting the notification
     func setupNotification() {
         notificationCenter.getNotificationSettings { (settings) in
             DispatchQueue.main.async {
@@ -155,9 +154,9 @@ extension NewReminderViewController {
                     content.title = title
                     content.body = message
                     let dateComponent = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
-                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                    self.notificationCenter.add(request) { error in
+                    let notifTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+                    let notifRequest = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: notifTrigger)
+                    self.notificationCenter.add(notifRequest) { error in
                         if let err = error {
                             print("Error: \(err.localizedDescription)")
                             return

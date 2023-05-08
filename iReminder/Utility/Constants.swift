@@ -36,8 +36,9 @@ struct Constants {
     static let reminderSchedulSettingButtonTitle =  "Settings"
     static let reminderScheduleNotifCancleButtonTitle = "Cancel"
     static let allRemindersCellColor      = "AllRemindersCellColor"
-    
-    
+    static let doneBarButtonTitle         = "Done"
+    static let newReminderTitle           = "New Reminder"
+    static let detailViewControllerTitle  = "Details"
     
     /// Colors
     static let allRemindersVCBackgroundColor    = "AllRemindersVCBackgroundColor"

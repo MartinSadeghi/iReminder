@@ -25,8 +25,5 @@ class AllRemindersViewModel {
         return reminders.count
     }
     
-    func dateFormatter() {
-        
-    }
     
 }

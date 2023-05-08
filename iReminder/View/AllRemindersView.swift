@@ -18,7 +18,7 @@ class AllRemindersViewController: UIViewController {
         super.viewDidLoad()
         self.title = Constants.allRemindersTitle.localized()
         navigationController?.navigationBar.backgroundColor = .black
-        view.backgroundColor = UIColor(named: Constants.allRemindersVCBackgroundColor.localized())
+        view.backgroundColor = UIColor(named: Constants.allRemindersVCBackgroundColor)
         configureTableView()
         setupRemindersTableViewConstraint()
         setupAddBarButton()
@@ -53,7 +53,7 @@ class AllRemindersViewController: UIViewController {
     
     @objc private func addNewReminder() {
         let newReminderViewController = NewReminderViewController()
-        newReminderViewController.title = "New Reminder"
+        newReminderViewController.title = Constants.newReminderTitle
         let newReminderVC = UINavigationController(rootViewController: newReminderViewController)
         newReminderVC.modalPresentationStyle = .pageSheet
         newReminderViewController.newReminderDelegate = self
@@ -79,7 +79,7 @@ extension AllRemindersViewController: UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
         let detailsViewController = DetailReminderViewController(reminder: ReminderModel(title: viewModel.reminders[indexPath.row].title, body: viewModel.reminders[indexPath.row].body, time: viewModel.reminders[indexPath.row].time))
         
-        detailsViewController.title = "Details"
+        detailsViewController.title = Constants.detailViewControllerTitle
         let navController = UINavigationController(rootViewController: detailsViewController)
         navController.modalPresentationStyle = .pageSheet
         present(navController, animated: true, completion: nil)
@@ -108,6 +108,7 @@ extension AllRemindersViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reminderCellIdentifier, for: indexPath) as? RemindersCell else { return UITableViewCell() }
         cell.fillReminderData(reminderTitle: viewModel.reminders[indexPath.row].title, reminderTime: viewModel.reminders[indexPath.row].time)
+        print(cell)
         return cell
     }
     

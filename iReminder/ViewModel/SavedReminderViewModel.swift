@@ -18,7 +18,6 @@ class SavedRemindersViewModel {
     }
     
     func deleteSwipeReminder(_ reminder: ReminderModel) {
-        let selectedReminder = reminder
-        userDefaultsManager.deleteReminder(reminder: selectedReminder)
+        userDefaultsManager.deleteReminder(reminder: reminder)
     }
 }

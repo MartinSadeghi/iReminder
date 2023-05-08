@@ -19,7 +19,7 @@ class RemindersCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         reminderImage.image = UIImage(systemName: "hourglass")
         reminderImageConstraint()
-        reminderNameLableConstraint()
+        reminderTitleLableConstraint()
         reminderTimeLableConstraint()
 
     }
@@ -29,10 +29,10 @@ class RemindersCell: UITableViewCell {
     /// Initializing Cell
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = UIColor(named: Constants.allRemindersCellColor)
         contentView.addSubview(reminderImage)
         contentView.addSubview(reminderTitleLable)
         contentView.addSubview(reminderTimeLable)
-        contentView.backgroundColor = UIColor(named: Constants.allRemindersCellColor)
     }
 
 
@@ -71,6 +71,7 @@ class RemindersCell: UITableViewCell {
         let lable = UILabel()
         lable.textColor = .white
         lable.textAlignment = .left
+        lable.text = "fsdfbvscaxcsdvfbdvsc"
         lable.font = UIFont(name: "Chalkboard", size: 20)
         return lable
     }()
@@ -89,7 +90,7 @@ class RemindersCell: UITableViewCell {
 
 
     /// Set Reminder TitleLable Constraint
-    private func reminderNameLableConstraint() {
+    private func reminderTitleLableConstraint() {
         reminderTitleLable.translatesAutoresizingMaskIntoConstraints = false
         reminderTitleLable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         reminderTitleLable.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
